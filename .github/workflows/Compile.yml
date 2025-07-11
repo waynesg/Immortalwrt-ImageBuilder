@@ -41,6 +41,7 @@ jobs:
         cp -r files build/imagebuilder/files
         mkdir -p build/imagebuilder/packages/custom
         cp -v packages/*.ipk build/imagebuilder/packages/custom/
+        cp packages_names.txt build/imagebuilder/ 
 
     - name: Copy .config (optional)
       run: |

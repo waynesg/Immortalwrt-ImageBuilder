@@ -23,7 +23,7 @@ jobs:
         mkdir -p build && cd build
         wget https://mirrors.aliyun.com/openwrt/releases/24.10.2/targets/x86/64/openwrt-imagebuilder-24.10.2-x86-64.Linux-x86_64.tar.zst
         tar --use-compress-program=unzstd -xvf openwrt-imagebuilder-*.tar.zst
-        mv openwrt-imagebuilder-* imagebuilder
+        mv openwrt-imagebuilder-24.10.2-x86-64.Linux-x86_64 imagebuilder
 
     - name: Prepare custom IPK packages
       run: |

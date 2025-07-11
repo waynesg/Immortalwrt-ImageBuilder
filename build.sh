@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # 先执行 prepare-packages.sh 此脚本用于拷贝所有自定义ipk到packages目录
-sh prepare-packages.sh
+#sh prepare-packages.sh
 # 以下是仓库内的包名 你可以在openwrt官网仓库查询插件名称
 # https://downloads.openwrt.org/releases/24.10.2/packages/x86_64/luci/
 # https://mirrors.aliyun.com/openwrt/releases/24.10.2/packages/x86_64/luci/

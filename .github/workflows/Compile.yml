@@ -65,7 +65,7 @@ jobs:
         path: output/
 
     - name: Cleanup old workflow runs (keep latest 3)
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
+      if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
         env:
           GH_TOKEN: ${{ secrets.REPO_TOKEN }}
           KEEP: 3

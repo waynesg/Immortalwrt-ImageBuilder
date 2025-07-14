@@ -75,6 +75,9 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-openclash"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-nikki-zh-cn"
 
 # ✅ 校验 CUSTOM_PACKAGES 中的包是否都存在于 packages_names.txt
+cd extra-packages
+ls *.ipk *.run 2>/dev/null | sed -E 's/(_[0-9a-zA-Z\.\-]+)*\.(ipk|run)$//' | sort -u > ../packages_names.txt
+cd ..
 package_file="packages_names.txt"
 for pkg in $CUSTOM_PACKAGES; do
   if ! grep -qx "$pkg" "$package_file"; then

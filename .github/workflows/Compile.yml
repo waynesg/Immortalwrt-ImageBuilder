@@ -55,9 +55,9 @@ jobs:
     - name: Archive firmware
       run: |
         mkdir -p output
-        cp -v build/imagebuilder/output/* output/
+        find build/imagebuilder/bin/targets/ -type f \( -name "*.img.gz" -o -name "*.bin" -o -name "*.tar.gz" \) -exec cp -v {} output/ \;
         sha256sum output/* > output/sha256sums.txt
-
+    
     - name: Upload firmware artifact
       uses: actions/upload-artifact@v4
       with:

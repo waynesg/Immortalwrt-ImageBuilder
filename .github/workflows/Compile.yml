@@ -64,27 +64,29 @@ jobs:
         name: openwrt-firmware
         path: output/
 
-    - name: Cleanup old workflow runs (keep latest 3)
-      if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
-        env:
-          GH_TOKEN: ${{ secrets.REPO_TOKEN }}
-          KEEP: 3
-        run: |
-          echo "Fetching workflow ID for current workflow..."
-          WORKFLOW_ID=$(gh api repos/${{ github.repository }}/actions/workflows \
-            | jq -r --arg name "${{ github.workflow }}" '.workflows[] | select(.name == $name) | .id')
+    - name: Clean up old workflow runs (keep last 3)
+      if: ${{ github.ref == 'refs/heads/main' }}
+      env:
+        GH_TOKEN: ${{ secrets.REPO_TOKEN }}
+      run: |
+        echo "Fetching workflow ID for current workflow..."
+        WORKFLOW_ID=$(gh api repos/${{ github.repository }}/actions/workflows \
+          | jq -r '.workflows[] | select(.name == "Build OpenWrt Firmware") | .id')
+        echo "✅ Found workflow ID: $WORKFLOW_ID"
 
-          if [ -z "$WORKFLOW_ID" ]; then
-            echo "❌ Workflow ID not found for '${{ github.workflow }}'"
-            exit 0
+        echo "Fetching all runs for this workflow..."
+        RUN_IDS=$(gh api repos/${{ github.repository }}/actions/workflows/$WORKFLOW_ID/runs \
+          --paginate -q '.workflow_runs[].id')
+
+        echo "Deleting old workflow runs, keeping the latest 3..."
+        COUNT=0
+        for run_id in $RUN_IDS; do
+          COUNT=$((COUNT+1))
+          if [ $COUNT -le 3 ]; then
+            continue
           fi
+          echo "🗑️ Deleting workflow run $run_id"
+          gh api --method DELETE repos/${{ github.repository }}/actions/runs/$run_id
+        done
 
-          echo "✅ Found workflow ID: $WORKFLOW_ID"
-
-          echo "Deleting old workflow runs, keeping the latest $KEEP..."
-
-          gh api repos/${{ github.repository }}/actions/workflows/$WORKFLOW_ID/runs \
-            --paginate -q '.workflow_runs | .[] | .id' | tail -n +$(($KEEP + 1)) | while read run_id; do
-            echo "🗑️ Deleting workflow run $run_id"
-            gh api -X DELETE repos/${{ github.repository }}/actions/runs/$run_id
-          done
+    

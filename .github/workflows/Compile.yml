@@ -63,3 +63,28 @@ jobs:
       with:
         name: openwrt-firmware
         path: output/
+
+    - name: Cleanup old workflow runs (keep latest 3)
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
+        env:
+          GH_TOKEN: ${{ secrets.REPO_TOKEN }}
+          KEEP: 3
+        run: |
+          echo "Fetching workflow ID for current workflow..."
+          WORKFLOW_ID=$(gh api repos/${{ github.repository }}/actions/workflows \
+            | jq -r --arg name "${{ github.workflow }}" '.workflows[] | select(.name == $name) | .id')
+
+          if [ -z "$WORKFLOW_ID" ]; then
+            echo "❌ Workflow ID not found for '${{ github.workflow }}'"
+            exit 0
+          fi
+
+          echo "✅ Found workflow ID: $WORKFLOW_ID"
+
+          echo "Deleting old workflow runs, keeping the latest $KEEP..."
+
+          gh api repos/${{ github.repository }}/actions/workflows/$WORKFLOW_ID/runs \
+            --paginate -q '.workflow_runs | .[] | .id' | tail -n +$(($KEEP + 1)) | while read run_id; do
+            echo "🗑️ Deleting workflow run $run_id"
+            gh api -X DELETE repos/${{ github.repository }}/actions/runs/$run_id
+          done

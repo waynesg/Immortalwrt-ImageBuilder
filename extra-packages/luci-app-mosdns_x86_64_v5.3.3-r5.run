@@ -7,8 +7,8 @@ if test "n" = n; then
     umask 077
 fi
 
-CRCsum="2424657306"
-MD5="c4cc5c3ae1b5d7dbb54b1cf9ba2aeab7"
+CRCsum="850276103"
+MD5="41e812cb057847538bb557cc88296deb"
 SHA="0000000000000000000000000000000000000000000000000000000000000000"
 SIGNATURE=""
 TMPROOT=${TMPDIR:=/tmp}
@@ -409,7 +409,7 @@ do
 	if test x"n" != x""; then
 	    echo Encryption: n
 	fi
-	echo Date of packaging: Mon Jul 14 01:36:59 UTC 2025
+	echo Date of packaging: Mon Jul 14 04:21:29 UTC 2025
 	echo Built with Makeself version 2.5.0
 	echo Build command was: "./makeself.sh \\
     \"mosdns_x86_64/\" \\
@@ -756,5 +756,5 @@ if test x"$keep" = xn; then
     rm -rf "$tmpdir"
 fi
 eval $finish; exit $res
-ã ;_thÌ“±Ç0∆ÒŒ<∆ÕÅ^Ö¶œÉBÑ@
-˙˛T$n∫i4˘ˇñØΩﬁ–K.”≠üó≤Ô≥πQ"ë≥ˆû∆Y≥›œ"[nbÕX…≠XW∏\â)$∂ß¢æ ƒÈß¯ï)x_OØ˚™·⁄Ω{ﬂGyÊü8Ù•ızníaÏni´r©Á}1“S÷é]¢              ødmNÜC (  
+ã …ÖthÌ“MÇ0Ü·Æ9Eç;0õûÖ))Ñü˚Së∏”ùFì˜Ÿ|ÌLùd“¨”\v]:5ÍC$r÷ﬁ”8k∂{.≤Â&÷åï¬…ùâ}sñ¬)-Íñ8˝ø2.!‘„ÎwUıÔ˙˚(œ¸«CviC65I?¯õ^Ü™úÎ«y_}J€¡'
+             KVÊ} (  
